@@ -1,0 +1,56 @@
+@startuml
+class Person {
+  +person_id: str
+  +name: str
+  +email: str
+  +get_details()
+  +get_responsibilities()
+}
+
+class Student {
+  +program: str
+  +enroll_course()
+  +drop_course()
+  +calculate_gpa()
+  +get_academic_status()
+}
+class UndergraduateStudent
+class GraduateStudent
+
+class Faculty {
+  +department: str
+  +assign_course()
+  +calculate_workload()
+  +get_responsibilities()
+}
+class Professor
+class Lecturer
+class TA
+
+class Department {
+  +name: str
+  +add_faculty()
+  +create_course()
+  +register_student()
+}
+
+class Course {
+  +code: str
+  +title: str
+  +credits: int
+  +add_student()
+  +assign_instructor()
+}
+
+Person <|-- Student
+Student <|-- UndergraduateStudent
+Student <|-- GraduateStudent
+Person <|-- Faculty
+Faculty <|-- Professor
+Faculty <|-- Lecturer
+Faculty <|-- TA
+
+Department "1" --> "*" Faculty
+Department "1" --> "*" Course
+Course "*" --> "*" Student
+@enduml
