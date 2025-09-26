@@ -5,9 +5,9 @@ from question1_university_system.department import Department, Course
 def demo():
     cs = Department("Computer Science")
 
-    prof = Professor("F001", "Dr. Alice", "alice@uni.edu", "CS")
-    lect = Lecturer("F002", "Bob", "bob@uni.edu", "CS")
-    ta = TA("F003", "Carol", "carol@uni.edu", "CS")
+    prof = Professor("F001", "Dr. Thiru", "thiru@uni.edu", "CS")
+    lect = Lecturer("F002", "Vinuja", "vinu@uni.edu", "CS")
+    ta = TA("F003", "Dayan", "dayan@uni.edu", "CS")
     cs.add_faculty(prof)
     cs.add_faculty(lect)
     cs.add_faculty(ta)
@@ -19,8 +19,8 @@ def demo():
     cs.assign_faculty_to_course("F001", "CS201")
     cs.assign_faculty_to_course("F002", "CS101")
 
-    s1 = UndergraduateStudent("S001", "Dave", "dave@uni.edu", "CS")
-    s2 = UndergraduateStudent("S002", "Eve", "eve@uni.edu", "CS")
+    s1 = UndergraduateStudent("S001", "Maheshi", "mwasala@uni.edu", "CS")
+    s2 = UndergraduateStudent("S002", "Nilukshi", "nilu@uni.edu", "CS")
 
     print("Registering students to CS101...")
     cs.register_student("CS101", s1)

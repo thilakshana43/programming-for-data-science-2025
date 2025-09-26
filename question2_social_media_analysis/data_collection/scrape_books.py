@@ -23,7 +23,8 @@ def scrape_books(pages=10, delay=1):
             books = soup.select('article.product_pod')
             for book in books:
                 title = book.h3.a['title']
-                price = book.select_one('p.price_color').text.replace('£', '')
+                price = book.select_one('p.price_color').text
+                price = price.replace('£', '').replace('Â', '').strip()
                 rating = book.p['class'][1]
                 availability = book.select_one('p.instock.availability').text.strip()
 
