@@ -7,7 +7,9 @@ import os
 
 def visualize_data(clean_csv_path):
     df = pd.read_csv(clean_csv_path)
-    save_dir = os.path.dirname(clean_csv_path)
+    # save_dir = os.path.dirname(clean_csv_path)
+    save_dir = os.path.join(os.path.dirname(__file__), "output")
+    os.makedirs(save_dir, exist_ok=True)
 
     # Price histogram
     if 'price' in df.columns:
@@ -35,22 +37,31 @@ def visualize_data(clean_csv_path):
         plt.savefig(os.path.join(save_dir, "rating_vs_price.png"))
         plt.show()
 
-    # Interactive scatter (books/demo only)
-    num_cols = [col for col in ['price','rating'] if col in df.columns]
-    if num_cols:
-        fig = px.scatter(df, x='rating' if 'rating' in df.columns else 'price',
-                         y='price', color='title', hover_data=['title'])
-        fig.write_html(os.path.join(save_dir, "interactive_plot.html"))
+    # Interactive scatter plot (books or demo site)
+    if 'price' in df.columns and 'title' in df.columns:
+        fig = px.scatter(df,
+                         x='rating' if 'rating' in df.columns else 'price',
+                         y='price',
+                         color='title',
+                         hover_data=['title'])
+        html_path = os.path.join(save_dir, "interactive_plot.html")
+        fig.write_html(html_path)
         fig.show()
+        print(f"Interactive plot saved to: {html_path}")
 
-    # For RSS feed, plot frequency of words in titles
-    if 'title' in df.columns and 'price' not in df.columns:
-        df['title_words'] = df['title'].str.split()
+    # RSS feed: Top 20 title keywords bar chart
+    if {'title', 'link', 'published', 'summary'}.issubset(df.columns):
+        df['title_words'] = df['title'].str.lower().str.split()
         all_words = df['title_words'].explode()
         top_words = all_words.value_counts().head(20)
-        plt.figure(figsize=(10,6))
+
+        plt.figure(figsize=(10, 6))
         sns.barplot(x=top_words.values, y=top_words.index)
         plt.title("Top 20 Words in RSS Titles")
         plt.xlabel("Count")
         plt.ylabel("Word")
+        plt.tight_layout()
+        output_path = os.path.join(save_dir, "rss_keywords.png")
+        plt.savefig(output_path)
         plt.show()
+        print(f"RSS keywords bar chart saved to: {output_path}")
