@@ -7,11 +7,11 @@ import os
 
 def visualize_data(clean_csv_path):
     df = pd.read_csv(clean_csv_path)
-    #Set up a path for save visualizations
+    # Directory for saving output charts
     save_dir = os.path.join(os.path.dirname(__file__), "output")
     os.makedirs(save_dir, exist_ok=True)
 
-    # Price histogram
+    # Price distribution histogram
     if 'price' in df.columns:
         plt.figure(figsize=(10,6))
         sns.histplot(df['price'], bins=30, kde=True)
@@ -21,7 +21,7 @@ def visualize_data(clean_csv_path):
         plt.savefig(os.path.join(save_dir, "price_distribution.png"))
         plt.show()
 
-    # Boxplot by rating
+    # Boxplot: Price by rating
     if 'rating' in df.columns:
         plt.figure(figsize=(10,6))
         sns.boxplot(x='rating', y='price', data=df)
@@ -29,7 +29,7 @@ def visualize_data(clean_csv_path):
         plt.savefig(os.path.join(save_dir, "price_by_rating.png"))
         plt.show()
 
-    # Scatter price vs rating
+    # Scatter Plot: price vs rating
     if 'rating' in df.columns:
         plt.figure(figsize=(10,6))
         sns.scatterplot(x='rating', y='price', data=df)
@@ -37,7 +37,7 @@ def visualize_data(clean_csv_path):
         plt.savefig(os.path.join(save_dir, "rating_vs_price.png"))
         plt.show()
 
-    # Interactive scatter plot (books or demo site)
+    # Interactive scatter plot (books or demo site) using Plotly
     if 'price' in df.columns and 'title' in df.columns:
         fig = px.scatter(df,
                          x='rating' if 'rating' in df.columns else 'price',
@@ -49,7 +49,7 @@ def visualize_data(clean_csv_path):
         fig.show()
         print(f"Interactive plot saved to: {html_path}")
 
-    # RSS feed: Top 20 title keywords bar chart
+    # RSS feed: Top 20 keywords bar chart
     if {'title', 'link', 'published', 'summary'}.issubset(df.columns):
         df['title_words'] = df['title'].str.lower().str.split()
         all_words = df['title_words'].explode()

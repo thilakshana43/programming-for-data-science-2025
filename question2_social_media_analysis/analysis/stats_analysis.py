@@ -7,17 +7,17 @@ def analyze_data(clean_csv_path):
     df = pd.read_csv(clean_csv_path)
     print(f"\n--- Analyzing {clean_csv_path} ---\n")
 
-    # Numerical analysis if price exists
+    # Display price statistics if column exists
     if 'price' in df.columns:
         print("Price stats:\n", df['price'].describe())
 
-    # Rating stats (books only)
+    # Calculate correlation between price and rating (for books)
     if 'rating' in df.columns:
         print("Rating stats:\n", df['rating'].describe())
         corr, _ = pearsonr(df['price'], df['rating'])
         print(f"Correlation between price and rating: {corr:.2f}")
 
-    # Categorical frequency
+    # Frequency distribution for categorical columns
     cat_cols = [col for col in df.columns if df[col].dtype == 'object']
     for col in cat_cols:
         print(f"\nFrequency distribution for {col}:\n", df[col].value_counts().head(10))
