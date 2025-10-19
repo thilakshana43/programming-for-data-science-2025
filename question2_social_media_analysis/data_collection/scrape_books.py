@@ -10,7 +10,7 @@ HEADERS = {'User-Agent': 'Mozilla/5.0'}
 DATA_DIR = os.path.join(os.path.dirname(__file__))
 
 
-def scrape_books(pages=10, delay=1):
+def scrape_books(pages, delay=1):
     all_books = []
 
     for page in range(1, pages + 1):

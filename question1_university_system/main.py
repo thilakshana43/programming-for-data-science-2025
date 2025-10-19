@@ -3,32 +3,45 @@ from question1_university_system.faculty import Professor, Lecturer, TA
 from question1_university_system.department import Department, Course
 
 def demo():
+    # Create a department
     cs = Department("Computer Science")
 
+    # Create faculty members
     prof = Professor("F001", "Dr. Thiru", "thiru@uni.edu", "CS")
     lect = Lecturer("F002", "Vinuja", "vinu@uni.edu", "CS")
     ta = TA("F003", "Dayan", "dayan@uni.edu", "CS")
+
+    # Add faculty members to department
     cs.add_faculty(prof)
     cs.add_faculty(lect)
     cs.add_faculty(ta)
 
+    # Create two courses (one with prerequisite)
     intro = Course("CS101", "Intro to CS", 3, max_students=2)
     adv = Course("CS201", "Algorithms", 4, prerequisites=["CS101"])
+
+    # Add courses to department
     cs.create_course(intro)
     cs.create_course(adv)
+
+    # Assign instructors to courses
     cs.assign_faculty_to_course("F001", "CS201")
     cs.assign_faculty_to_course("F002", "CS101")
 
+    # Create student objects
     s1 = UndergraduateStudent("S001", "Maheshi", "mwasala@uni.edu", "CS")
     s2 = UndergraduateStudent("S002", "Nilukshi", "nilu@uni.edu", "CS")
 
+    # Enroll students in CS101
     print("Registering students to CS101...")
     cs.register_student("CS101", s1)
     cs.register_student("CS101", s2)
 
+    # Record grades for CS101
     s1.record_grade("CS101", 3.7)
     s2.record_grade("CS101", 1.8)
 
+    # Try enrolling in advanced course (CS201)
     try:
         cs.register_student("CS201", s1)
         print("s1 enrolled in CS201")
@@ -36,14 +49,16 @@ def demo():
         print("Error enrolling s1 in CS201:", e)
 
     try:
-        cs.register_student("CS201", s2)
+        cs.register_student("CS201", s2)    # Should fail (low grade)
     except Exception as e:
         print("Expected prereq error for s2:", e)
 
+    # Secure record demonstration (encapsulation)
     secure_s1 = SecureStudentRecord(s1)
     secure_s1.set_semester_gpa("2025S1", 3.6)
     print("Cumulative GPA (secure):", secure_s1.get_cumulative_gpa())
 
+    # Demonstrate polymorphism — same method behaves differently
     people = [s1, prof, lect, ta]
     for p in people:
         print(f"{p.name} responsibilities: {p.get_responsibilities()}")

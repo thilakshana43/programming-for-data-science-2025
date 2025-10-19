@@ -7,7 +7,7 @@ import os
 
 def visualize_data(clean_csv_path):
     df = pd.read_csv(clean_csv_path)
-    # save_dir = os.path.dirname(clean_csv_path)
+    #Set up a path for save visualizations
     save_dir = os.path.join(os.path.dirname(__file__), "output")
     os.makedirs(save_dir, exist_ok=True)
 
